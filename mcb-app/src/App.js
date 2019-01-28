@@ -14,7 +14,7 @@ class App extends React.Component {
     render() {
         return (
             <div id="AppDiv">
-                <Header title="My Custom Business web app !"/>
+                <Header title="MCB !"/>
                 <p>App body !</p>
                 <Footer />
             </div>
