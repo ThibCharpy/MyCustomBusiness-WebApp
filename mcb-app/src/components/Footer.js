@@ -10,7 +10,16 @@ class Footer extends React.Component {
      */
     render() {
         return (
-            <h3>Footer</h3>
+            <footer class="fixed-bottom">
+                <hr />
+                <div class="row justify-content-around">
+                    <small>My Custom Business</small>
+                    <a class="btn-light" href="#">
+                        <i class="fas fa-suitcase fa-2x"></i>
+                    </a>
+                    <small>ReactJS Web Application</small>
+                </div>
+            </footer>
         );
     }
 }

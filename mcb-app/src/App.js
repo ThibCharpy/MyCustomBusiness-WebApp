@@ -15,8 +15,10 @@ class App extends React.Component {
         return (
             <div id="AppDiv">
                 <Header title="MCB !"/>
-                <p>App body !</p>
-                <Footer />
+                <div class="container">
+                    <p>App body !</p>
+                    <Footer />
+                </div>
             </div>
         );
     }
