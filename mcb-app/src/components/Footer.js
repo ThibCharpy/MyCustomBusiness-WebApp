@@ -20,6 +20,7 @@ class Footer extends React.Component {
                     <small>ReactJS Web Application</small>
                 </div>
             </footer>
+            
         );
     }
 }
