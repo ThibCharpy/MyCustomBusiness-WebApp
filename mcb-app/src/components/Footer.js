@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {Link} from 'react-router-dom'
+
 /**
  * App Footer
  */
@@ -14,9 +16,9 @@ class Footer extends React.Component {
                 <hr />
                 <div class="row justify-content-around">
                     <small>My Custom Business</small>
-                    <a class="btn-light" href="#">
+                    <Link class="btn-light" to="/">
                         <i class="fas fa-suitcase fa-2x"></i>
-                    </a>
+                    </Link>
                     <small>ReactJS Web Application</small>
                 </div>
             </footer>
