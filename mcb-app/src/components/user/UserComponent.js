@@ -1,16 +1,43 @@
 import React from 'react';
 
+import UserList from './UserList';
+
+/**
+ * User management component
+ */
 class UserComponent extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.getUsers = this.getUsers.bind(this);
+        this.state = {
+            users: []
+        }
+    }
+
     /**
-     * Render html and other components function function
+     * On mounting component
+     */
+    componentDidMount(){
+        this.getUsers();
+    }
+    
+    /**
+     * Retrieve users by requesting server
+     */
+    getUsers() {
+        return [];
+    };
+
+    /**
+     * Render html and other components function
      */
     render() {
         return (
             <div>
                 <h2>My Custom Business - Users</h2>
                 <hr />
-                <p>Interface to manage users</p>
+                <UserList items={this.state.elements}/>
             </div>
         );
     }

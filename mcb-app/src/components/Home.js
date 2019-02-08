@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * App Home 
+ */
 class Home extends React.Component {
 
     /**
