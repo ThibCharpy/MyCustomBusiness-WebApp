@@ -30,12 +30,12 @@ class UserComponent extends React.Component {
     };
 
     /**
-     * Render html and other components function
+     * Render html and other components
      */
     render() {
         return (
             <div>
-                <h2>My Custom Business - Users</h2>
+                <h2>My Custom Business - Users management</h2>
                 <hr />
                 <UserList items={this.state.elements}/>
             </div>

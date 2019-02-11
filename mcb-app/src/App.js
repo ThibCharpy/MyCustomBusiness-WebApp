@@ -6,6 +6,7 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './components/Home'
 import UserComponent from './components/user/UserComponent'
+import UserForm from './components/user/UserForm'
 
 /**
  * Main App
@@ -13,19 +14,21 @@ import UserComponent from './components/user/UserComponent'
 class App extends React.Component {
 
     /**
-     * Render html and other components function function
+     * Render html and other components
      */
     render() {
         return (
             <Router>
                 <div id="AppDiv">
                     <Header title="MCB !"/>
-                    <div class="container">
+                    <div className="container">
                         <div id="appRoot">
                             <Switch>
                                 <Route exact path="/" component={Home} />
-                                <Route path="/home" component={Home} />
-                                <Route path="/users" component={UserComponent} />
+                                <Route exact path="/home" component={Home} />
+                                <Route exact path="/users" component={UserComponent} />
+                                <Route exact path="/users/new" component={UserForm} />
+                                <Route path="/users/:id" component={UserForm} />
                             </Switch>
                         </div>
                         <Footer />

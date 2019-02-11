@@ -8,16 +8,16 @@ import {Link} from 'react-router-dom'
 class Footer extends React.Component {
 
     /**
-     * Render html and other components function function
+     * Render html and other components
      */
     render() {
         return (
-            <footer class="fixed-bottom">
+            <footer className="fixed-bottom">
                 <hr />
-                <div class="row justify-content-around">
+                <div className="row justify-content-around">
                     <small>My Custom Business</small>
-                    <Link class="btn-light" to="/">
-                        <i class="fas fa-suitcase fa-2x"></i>
+                    <Link className="btn-light" to="/">
+                        <i className="fas fa-suitcase fa-2x"></i>
                     </Link>
                     <small>ReactJS Web Application</small>
                 </div>

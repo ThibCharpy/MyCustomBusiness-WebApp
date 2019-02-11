@@ -6,7 +6,7 @@ import React from 'react';
 class Home extends React.Component {
 
     /**
-     * Render html and other components function function
+     * Render html and other components
      */
     render() {
         return (
