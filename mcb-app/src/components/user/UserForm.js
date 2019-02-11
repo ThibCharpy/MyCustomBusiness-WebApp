@@ -7,18 +7,18 @@ class UserForm extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.baseState = this.state;
         this.state = {
             username: '',
             email: '',
             password: '',
             confirmedPassword: '',
-            usernameError: null,
-            emailError: null,
-            passwordError: null,
-            confirmedPasswordError: null,
+            usernameError: '',
+            emailError: '',
+            passwordError: '',
+            confirmedPasswordError: '',
         }
+
+        this.baseState = this.state;
 
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -37,10 +37,9 @@ class UserForm extends React.Component {
      * @param {Event} e on change event
      */
     handleUsernameChange(e) {
-        e.preventDefault();
         this.setState({
             username: e.target.value
-        });
+        }, () => this.validateUsername());
     }
 
     /**
@@ -48,10 +47,9 @@ class UserForm extends React.Component {
      * @param {Event} e on change event
      */
     handleEmailChange(e) {
-        e.preventDefault();
         this.setState({
             email: e.target.value
-        });
+        }, () => this.validateEmail());
     }
 
     /**
@@ -59,10 +57,9 @@ class UserForm extends React.Component {
      * @param {Event} e on change event
      */
     handlePasswordChange(e) {
-        e.preventDefault();
         this.setState({
             password: e.target.value
-        });
+        },  () => this.validatePassword());
     }
 
     /**
@@ -70,10 +67,9 @@ class UserForm extends React.Component {
      * @param {Event} e on change event
      */
     handleConfirmPasswordChange(e) {
-        e.preventDefault();
         this.setState({
             confirmedPassword: e.target.value
-        });
+        }, () => this.validateConfirmedPassword());
     }
 
     /**
@@ -86,10 +82,8 @@ class UserForm extends React.Component {
 
     /**
      * Clear form inputs
-     * @param {Event} e on click event
      */
-    clearForm(e) {
-        e.preventDefault();
+    clearForm() {
         this.setState(this.baseState);
     }
 
@@ -100,11 +94,14 @@ class UserForm extends React.Component {
         const {username} = this.state;
         this.setState({
             usernameError:
-                (username.length > 3 && username.length < 16)?null:
-                'Invalid username'
+                (username.length > 3 && username.length < 16)? null:
+                'Invalid username, length: 6 < username < 16'
         });
     }
 
+    /**
+     * Check if the email is valid
+     */
     validateEmail() {
         let emailRegexp = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
         const {email} = this.state;
@@ -115,12 +112,29 @@ class UserForm extends React.Component {
         });
     }
 
+    /**
+     * Check if the password is valid
+     */
     validatePassword() {
-
+        const {password} = this.state;
+        this.setState({
+            passwordError:
+                (password.length > 6 && password.length < 16)? null:
+                "Invalid password length: 6 < password < 16"
+        })
     }
 
+    /**
+     * Check if the confirmed password is valid
+     */
     validateConfirmedPassword() {
-
+        const {confirmedPassword} = this.state;
+        const {password} = this.state;
+        this.setState({
+            confirmedPasswordError:
+                (confirmedPassword === password)? null:
+                "Confirmed password must be equals to password"
+        })
     }
 
     /**
@@ -135,26 +149,26 @@ class UserForm extends React.Component {
                 <hr />
                 <div className="form-group">
                     <label>Username:</label>
-                    <input className="form-control" type="text" placeholder="Username" value={this.state.username} onChange={this.handleUsernameChange}/>
-                    <div className="invalid-feedback">Invalid username</div>
+                    <input className={`form-control ${this.state.usernameError? 'is-invalid': ''}`} type="text" placeholder="Username" value={this.state.username} onChange={this.handleUsernameChange} onBlur={this.validateUsername}/>
+                    <div className="invalid-feedback">{this.state.usernameError}</div>
                 </div>
                 <div className="form-group">
                     <label>Email:</label>
-                    <input className="form-control" type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleEmailChange}/>
-                    <div className="invalid-feedback">Invalid Email</div>
+                    <input className={`form-control ${this.state.emailError? 'is-invalid': ''}`} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleEmailChange} onBlur={this.validateEmail}/>
+                    <div className="invalid-feedback">{this.state.emailError}</div>
                 </div>
                 <div className="form-group">
                     <label>Password:</label>
-                    <input className="form-control" type="text" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange}/>
-                    <div className="invalid-feedback">Invalid password</div>
+                    <input className={`form-control ${this.state.passwordError? 'is-invalid': ''}`} type="password" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange} onBlur={this.validatePassword}/>
+                    <div className="invalid-feedback">{this.state.passwordError}</div>
                 </div>
                 <div className="form-group">
                     <label>Confirm password:</label>
-                    <input className="form-control" type="text" placeholder="Confirm your password" value={this.state.confirmedPassword} onChange={this.handleConfirmPasswordChange}/>
-                    <div className="invalid-feedback">Invalid password</div>
+                    <input className={`form-control ${this.state.confirmedPasswordError? 'is-invalid': ''}`} type="password" placeholder="Confirm your password" value={this.state.confirmedPassword} onChange={this.handleConfirmPasswordChange} onBlur={this.validateConfirmedPassword}/>
+                    <div className="invalid-feedback">{this.state.confirmedPasswordError}</div>
                 </div>
                 <button type="submit" className={`btn ${isCreateForm? 'btn-primary': 'btn-warning'}`}>{buttonSubmitText}</button>&nbsp;
-                <button type="reset" className="btn btn-secondary" onClick={this.clearForm}>Clear form</button>
+                <button type="button" className="btn btn-secondary" onClick={this.clearForm}>Clear form</button>
             </form>
         );
     }
