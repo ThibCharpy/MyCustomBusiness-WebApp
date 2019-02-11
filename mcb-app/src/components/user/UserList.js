@@ -18,7 +18,9 @@ class UserList extends React.Component {
             <Link to="/users/new"><u>Create a new User <i className="fas fa-plus-circle"></i></u></Link>
             </td></tr>;
         } else {
-            list = this.props.items.map(item => <UserItem user={item}/>);
+            list = this.props.items.map(
+                    item => <UserItem onDelete={this.props.onDeleteUser} onEdit={this.props.onEditUser} user={item}/>
+                );
         }
         return (
             <table className="table table-hover">

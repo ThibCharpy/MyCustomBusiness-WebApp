@@ -11,20 +11,24 @@ class UserItem extends React.Component {
      */
     handleDelete(e) {
         e.preventDefault();
-        this.props.deleteUser(this.props.user.id);
+        this.props.onDelete(this.props.user.id);
     }
 
     /**
      * Render html and other components
      */
     render() {
+        let toEditUser = {
+            pathname: '/users/'+this.props.user.id,
+            onEditUser: this.props.onEdit
+        };
         return (
             <tr>
                 <td>{this.props.user.id}</td>
                 <td>{this.props.user.username}</td>
                 <td>{this.props.user.email}</td>
                 <td>
-                    <Link className="btn btn-warning" to="/users/:id">
+                    <Link to={toEditUser} className="btn btn-warning">
                         {this.props.user.id}<i class="far fa-pen"></i>
                     </Link>
                     &nbsp;
