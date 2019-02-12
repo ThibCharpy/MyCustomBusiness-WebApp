@@ -77,7 +77,21 @@ class UserForm extends React.Component {
      */
     handleSubmit(e) {
         e.preventDefault();
-        // TODO: To be implemented
+        // Test if it's edit or create case
+        if (this.props.match.params.id == null) {
+            this.props.location.onCreateUser(
+                this.state.username,
+                this.state.email,
+                this.state.password
+            )
+        } else {
+            this.props.location.onEditUser(
+                this.state.id,
+                this.state.username,
+                this.state.email,
+                this.state.password
+            )
+        }
     }
 
     /**
@@ -108,7 +122,7 @@ class UserForm extends React.Component {
         this.setState({
             emailError:
                 emailRegexp.test(email)?null:
-                'Invalid email'
+                email+' is not an email address'
         });
     }
 
