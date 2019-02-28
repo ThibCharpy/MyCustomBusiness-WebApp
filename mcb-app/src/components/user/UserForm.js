@@ -30,6 +30,9 @@ class UserForm extends React.Component {
         this.validateEmail = this.validateEmail.bind(this);
         this.validatePassword = this.validatePassword.bind(this);
         this.validateConfirmedPassword = this.validateConfirmedPassword.bind(this);
+
+        console.log("HERE")
+        console.log(this.props.location);
     }
 
     /**
@@ -77,15 +80,16 @@ class UserForm extends React.Component {
      */
     handleSubmit(e) {
         e.preventDefault();
-        // Test if it's edit or create case
         if (this.props.match.params.id == null) {
-            this.props.location.onCreateUser(
+            const {create} = this.props.location.innerRef;
+            create(
                 this.state.username,
                 this.state.email,
                 this.state.password
             )
         } else {
-            this.props.location.onEditUser(
+            const {update} = this.props.location.state;
+            update(
                 this.state.id,
                 this.state.username,
                 this.state.email,

@@ -13,13 +13,13 @@ class UserList extends React.Component {
      */
     render() {
         let list = null;
-        let toCreateUser = {
-            pathname: '/users/new',
-            onCreateUser: this.handleUserCreate 
-        };
+        let create = this.props.onCreateUser;
         if (!Array.isArray(this.props.items) || !this.props.items.length) {
             list =<tr><td className="table-secondary text-center" colSpan="4">
-                <Link to={toCreateUser}><u>Create a new User <i className="fas fa-plus-circle"></i></u></Link>
+                <Link to={{
+                    pathname: '/users/new',
+                    innerRef: {create}
+                    }}><u>Create a new User <i className="fas fa-plus-circle"></i></u></Link>
             </td></tr>;
         } else {
             list = this.props.items.map(

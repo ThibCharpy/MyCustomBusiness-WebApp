@@ -2,8 +2,6 @@ import axios from 'axios';
 
 const BASE_URL = 'http://localhost:8080/MCB-API';
 const requestHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
     'Content-Type': 'application/json'
 };
 

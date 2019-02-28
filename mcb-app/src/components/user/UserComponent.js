@@ -98,12 +98,12 @@ class UserComponent extends React.Component {
                         username: user.username,
                         email: user.email
                     };
-                    this.setState({users: [userElement].concat(this.state.users)})
+                    this.setState({users: [userElement].concat(this.state.users)});
                 });
                 this.setState({usersError: null});
             }
         ).catch(reason => {
-            this.setState({usersError: 'Cannot load user list, '+reason})
+            this.setState({usersError: 'Cannot load user list, '+reason});
             this.setState({users: []});
         }
       );
@@ -115,7 +115,7 @@ class UserComponent extends React.Component {
     render() {
         let toCreateUser = {
             pathname: '/users/new',
-            onCreateUser: this.handleUserCreate 
+            state: {create: this.handleUserCreate}
         };
         return (
             <div style={{paddingTop: '10px'}}>
@@ -127,7 +127,7 @@ class UserComponent extends React.Component {
                 <div className={`${this.state.usersError? 'alert alert-danger': ''}`} role="alert">
                     {this.state.usersError}
                 </div>
-                <UserList onDeleteUser={this.handleUsersDelete} onEditUser={this.handleUserUpdate} items={this.state.users}/>
+                <UserList onCreateUser={this.handleUserCreate} onDeleteUser={this.handleUsersDelete} onEditUser={this.handleUserUpdate} items={this.state.users}/>
             </div>
         );
     }
