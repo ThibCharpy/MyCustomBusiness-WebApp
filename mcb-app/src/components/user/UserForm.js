@@ -81,15 +81,15 @@ class UserForm extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         if (this.props.match.params.id == null) {
-            const {create} = this.props.location.innerRef;
-            create(
+            const {createFunc} = this.props.location.innerRef;
+            createFunc(
                 this.state.username,
                 this.state.email,
                 this.state.password
             )
         } else {
-            const {update} = this.props.location.state;
-            update(
+            const {editFunc} = this.props.location.innerRef;
+            editFunc(
                 this.state.id,
                 this.state.username,
                 this.state.email,

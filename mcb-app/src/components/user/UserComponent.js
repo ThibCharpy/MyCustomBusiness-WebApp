@@ -121,7 +121,11 @@ class UserComponent extends React.Component {
             <div style={{paddingTop: '10px'}}>
                 <div className="d-flex justifiy-content-between mb-3">
                     <h2 className="p-2">My Custom Business - Users management</h2>
-                    {(this.state.users.length > 0) ? <Link to={toCreateUser} className="btn btn-primary ml-auto">New User</Link>: null}
+                    {(this.state.users.length > 0) ? 
+                        <Link to={toCreateUser} className="btn btn-primary ml-auto align-self-end">
+                            Create&nbsp;<i class="far fa-plus-square fa-lg"></i>
+                        </Link>
+                    : null}
                 </div>
                 <hr />
                 <div className={`${this.state.usersError? 'alert alert-danger': ''}`} role="alert">

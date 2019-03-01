@@ -18,18 +18,19 @@ class UserItem extends React.Component {
      * Render html and other components
      */
     render() {
+        let editFunc = this.props.onEdit;
         let toEditUser = {
             pathname: '/users/'+this.props.user.id,
-            onEditUser: this.props.onEdit
+            innerRef: {editFunc}
         };
         return (
-            <tr>
-                <td>{this.props.user.id}</td>
-                <td>{this.props.user.username}</td>
-                <td>{this.props.user.email}</td>
-                <td>
+            <tr className="d-flex">
+                <th scope="row" className="col-sm-1">{this.props.user.id}</th>
+                <td className="col-sm-4">{this.props.user.username}</td>
+                <td className="col-sm-5">{this.props.user.email}</td>
+                <td className="col-sm-2 text-center">
                     <Link to={toEditUser} className="btn btn-warning">
-                        {this.props.user.id}<i class="far fa-pen"></i>
+                        <i class="far fa-edit"></i>
                     </Link>
                     &nbsp;
                     <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>

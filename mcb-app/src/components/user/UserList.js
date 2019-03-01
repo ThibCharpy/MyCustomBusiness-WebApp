@@ -13,12 +13,12 @@ class UserList extends React.Component {
      */
     render() {
         let list = null;
-        let create = this.props.onCreateUser;
+        let createFunc = this.props.onCreateUser;
         if (!Array.isArray(this.props.items) || !this.props.items.length) {
             list =<tr><td className="table-secondary text-center" colSpan="4">
                 <Link to={{
                     pathname: '/users/new',
-                    innerRef: {create}
+                    innerRef: {createFunc}
                     }}><u>Create a new User <i className="fas fa-plus-circle"></i></u></Link>
             </td></tr>;
         } else {
@@ -31,8 +31,8 @@ class UserList extends React.Component {
                 <thead className="bg-success">
                     <tr className="d-flex">
                         <th className="col-sm-1">#</th>
-                        <th className="col-sm-4 text-center">Name</th>
-                        <th className="col-sm-5 text-center">E-mail</th>
+                        <th className="col-sm-4">Name</th>
+                        <th className="col-sm-5">E-mail</th>
                         <th className="col-sm-2 text-center">Actions</th>
                     </tr>
                 </thead>
