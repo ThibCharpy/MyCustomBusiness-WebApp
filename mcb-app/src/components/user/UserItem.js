@@ -5,6 +5,11 @@ import {Link} from 'react-router-dom'
  */
 class UserItem extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.handleDelete = this.handleDelete.bind(this);
+    }
+
     /**
      * Handle the onClick event which permitt to delete the current user
      * @param {Event} e the onClick event 
@@ -19,9 +24,10 @@ class UserItem extends React.Component {
      */
     render() {
         let editFunc = this.props.onEdit;
+        let findUser = this.props.onSearch;
         let toEditUser = {
             pathname: '/users/'+this.props.user.id,
-            innerRef: {editFunc}
+            innerRef: {editFunc, findUser}
         };
         return (
             <tr className="d-flex">
@@ -30,10 +36,12 @@ class UserItem extends React.Component {
                 <td className="col-sm-5">{this.props.user.email}</td>
                 <td className="col-sm-2 text-center">
                     <Link to={toEditUser} className="btn btn-warning">
-                        <i class="far fa-edit"></i>
+                        <i className="far fa-edit"></i>
                     </Link>
                     &nbsp;
-                    <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                    <button className="btn btn-danger" onClick={this.handleDelete}>
+                        <i className="far fa-trash-alt"></i>
+                    </button>
                 </td>
             </tr>
         );

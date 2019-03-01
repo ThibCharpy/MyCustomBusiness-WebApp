@@ -6,39 +6,42 @@ const requestHeaders = {
 };
 
 // functions http get requesting to retrieve all users from the database
-function findAllUsers() {
+async function findAllUsers() {
   const url = `${BASE_URL}/users`;
-  return axios.get(url, {headers: requestHeaders}).then(response => response.data);
+  const response = await axios.get(url, { headers: requestHeaders });
+    return response.data;
 }
 
-function findUserById(userId) {
+async function findUserById(userId) {
     const url = `${BASE_URL}/users/${userId}`;
-    return axios.get(url, {headers: requestHeaders}).then(response => response.data);
+    const response = await axios.get(url, { headers: requestHeaders });
+    return response.data;
 }
 
-function addUser(username, email, password) {
+async function addUser(username, email, password) {
     const url = `${BASE_URL}/users/new`;
-    return axios.post(url, {
+    const response = await axios.post(url, {
         username: username,
         email: email,
         password: password
-    },  {headers: requestHeaders})
-    .then(response => response.data);
+    }, { headers: requestHeaders });
+    return response.data;
 }
 
-function updateUser(userId, username, email, password) {
+async function updateUser(userId, username, email, password) {
     const url = `${BASE_URL}/users/${userId}`;
-    return axios.put(url, {
+    const response = await axios.put(url, {
         username: username,
         email: email,
         password: password
-    },  {headers: requestHeaders})
-    .then(response => response.data);
+    }, { headers: requestHeaders });
+    return response.data;
 }
 
-function deleteUser(userId) {
+async function deleteUser(userId) {
   const url = `${BASE_URL}/users/${userId}`;
-  return axios.delete(url, {headers: requestHeaders}).then(response => response.status);
+  const response = await axios.delete(url, { headers: requestHeaders });
+    return response.status;
 }
 
 export{findAllUsers, findUserById, addUser, updateUser, deleteUser};

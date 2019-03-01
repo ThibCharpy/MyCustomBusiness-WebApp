@@ -23,7 +23,7 @@ class UserList extends React.Component {
             </td></tr>;
         } else {
             list = this.props.items.map(
-                    item => <UserItem onDelete={this.props.onDeleteUser} onEdit={this.props.onEditUser} user={item}/>
+                    item => <UserItem key={item.id} onSearch={this.props.onSearchUser}  onDelete={this.props.onDeleteUser} onEdit={this.props.onEditUser} user={item}/>
                 );
         }
         return (

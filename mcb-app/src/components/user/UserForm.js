@@ -1,5 +1,7 @@
 import React from 'react'
 
+import {withRouter} from 'react-router-dom'
+
 /**
  * Form component to create or edit a user
  */
@@ -7,19 +9,6 @@ class UserForm extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            username: '',
-            email: '',
-            password: '',
-            confirmedPassword: '',
-            usernameError: '',
-            emailError: '',
-            passwordError: '',
-            confirmedPasswordError: '',
-        }
-
-        this.baseState = this.state;
-
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -31,8 +20,18 @@ class UserForm extends React.Component {
         this.validatePassword = this.validatePassword.bind(this);
         this.validateConfirmedPassword = this.validateConfirmedPassword.bind(this);
 
-        console.log("HERE")
-        console.log(this.props.location);
+        this.state = {
+            username: '',
+            email: '',
+            password: '',
+            confirmedPassword: '',
+            usernameError: '',
+            emailError: '',
+            passwordError: '',
+            confirmedPasswordError: ''
+        }
+
+        this.baseState = this.state;
     }
 
     /**
@@ -86,7 +85,7 @@ class UserForm extends React.Component {
                 this.state.username,
                 this.state.email,
                 this.state.password
-            )
+            );
         } else {
             const {editFunc} = this.props.location.innerRef;
             editFunc(
@@ -94,14 +93,20 @@ class UserForm extends React.Component {
                 this.state.username,
                 this.state.email,
                 this.state.password
-            )
+            );
         }
+        this.clearForm();
+    }
+
+    componentWillMount() {
+        this.setState({email: ''});
+        this.setState({password: ''});
     }
 
     /**
      * Clear form inputs
      */
-    clearForm() {
+    clearForm(e) {
         this.setState(this.baseState);
     }
 
@@ -192,4 +197,4 @@ class UserForm extends React.Component {
     }
 }
 
-export default UserForm;
+export default withRouter(UserForm);

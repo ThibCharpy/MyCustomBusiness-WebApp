@@ -1,7 +1,7 @@
 import React from 'react'
 
 import UserList from './UserList'
-import {findAllUsers, addUser, updateUser, deleteUser} from '../../utils/mcb-api-users'
+import {findAllUsers, findUserById, addUser, updateUser, deleteUser} from '../../utils/mcb-api-users'
 import Link from 'react-router-dom/Link';
 
 /**
@@ -12,6 +12,7 @@ class UserComponent extends React.Component {
     constructor(props) {
         super(props);
         this.getUsers = this.getUsers.bind(this);
+        this.handleFindUserById = this.handleFindUserById.bind(this);
         this.handleUserCreate = this.handleUserCreate.bind(this);
         this.handleUserUpdate = this.handleUserUpdate.bind(this);
         this.handleUsersDelete = this.handleUsersDelete.bind(this);
@@ -28,19 +29,28 @@ class UserComponent extends React.Component {
         this.getUsers();
     }
 
+    async handleFindUserById(userId) {
+        const user = await findUserById(userId);
+        return user;
+    }
+
     /**
      * Handle form submit to create a new user
      * @param {String} username 
      * @param {String} email 
      * @param {String} password 
      */
-    handleUserCreate(username, email, password) {
-        addUser(username, email, password).then(
-            user => {
-                this.setState({users: [user].concat(this.state.users)});
-                this.setState({usersError: ''});
-            }
-        ).catch(reason => this.setState({usersError: 'User creation failed, '+reason}));
+    async handleUserCreate(username, email, password) {
+        try {
+            const user = await addUser(username, email, password);
+            this.setState({ users: [user].concat(this.state.users) });
+            this.setState({ usersError: '' });
+            return user;
+        }
+        catch (reason) {
+            console.log('Error: user creation failed !');
+            return null;
+        }
     }
 
     /**
@@ -50,16 +60,20 @@ class UserComponent extends React.Component {
      * @param {String} email 
      * @param {String} password 
      */
-    handleUserUpdate(userId, username, email, password) {
-        updateUser(userId, username, email, password).then(
-            user => {
-                let updatedUser = this.state.users.filter(userItem => user.id === userItem.id);
-                updatedUser.username = user.username;
-                updatedUser.email = user.email;
-                updatedUser.password = user.password;
-                this.setState({usersError: ''});
-            }
-        ).catch(reason => this.setState({usersError: 'Update user with id='+userId+'failed, '+reason}));
+    async handleUserUpdate(userId, username, email, password) {
+        try {
+            const user = await updateUser(userId, username, email, password);
+            let updatedUser = this.state.users.filter(userItem => user.id === userItem.id);
+            updatedUser.username = user.username;
+            updatedUser.email = user.email;
+            updatedUser.password = user.password;
+            this.setState({ usersError: '' });
+            return user;
+        }
+        catch (reason) {
+            console.log('Error: user update with id:' + userId + ' failed !');
+            return null;
+        }
     }
 
     /**
@@ -113,9 +127,10 @@ class UserComponent extends React.Component {
      * Render html and other components
      */
     render() {
+        let createFunc = this.handleUserCreate;
         let toCreateUser = {
             pathname: '/users/new',
-            state: {create: this.handleUserCreate}
+            innerRef: {createFunc}
         };
         return (
             <div style={{paddingTop: '10px'}}>
@@ -123,7 +138,7 @@ class UserComponent extends React.Component {
                     <h2 className="p-2">My Custom Business - Users management</h2>
                     {(this.state.users.length > 0) ? 
                         <Link to={toCreateUser} className="btn btn-primary ml-auto align-self-end">
-                            Create&nbsp;<i class="far fa-plus-square fa-lg"></i>
+                            Create&nbsp;<i className="far fa-plus-square fa-lg"></i>
                         </Link>
                     : null}
                 </div>
@@ -131,7 +146,7 @@ class UserComponent extends React.Component {
                 <div className={`${this.state.usersError? 'alert alert-danger': ''}`} role="alert">
                     {this.state.usersError}
                 </div>
-                <UserList onCreateUser={this.handleUserCreate} onDeleteUser={this.handleUsersDelete} onEditUser={this.handleUserUpdate} items={this.state.users}/>
+                <UserList onSearchUser={this.handleFindUserById} onCreateUser={this.handleUserCreate} onDeleteUser={this.handleUsersDelete} onEditUser={this.handleUserUpdate} items={this.state.users}/>
             </div>
         );
     }
