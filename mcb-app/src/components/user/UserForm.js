@@ -79,28 +79,26 @@ class UserForm extends React.Component {
      */
     handleSubmit(e) {
         e.preventDefault();
+        var result;
         if (this.props.match.params.id == null) {
             const {createFunc} = this.props.location.innerRef;
-            createFunc(
+            result = createFunc(
                 this.state.username,
                 this.state.email,
                 this.state.password
             );
         } else {
             const {editFunc} = this.props.location.innerRef;
-            editFunc(
+            result = editFunc(
                 this.state.id,
                 this.state.username,
                 this.state.email,
                 this.state.password
             );
         }
-        this.clearForm();
-    }
-
-    componentWillMount() {
-        this.setState({email: ''});
-        this.setState({password: ''});
+        if (result !== null) {
+            this.clearForm();
+        }
     }
 
     /**

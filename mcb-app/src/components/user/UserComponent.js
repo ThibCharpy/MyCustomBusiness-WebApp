@@ -9,6 +9,14 @@ import Link from 'react-router-dom/Link';
  */
 class UserComponent extends React.Component {
 
+    /**
+     * @todo manage errors when creating/editing a user profil
+     * @todo on edit user make the form have the user informations before editing
+     * @todo pass a user object to create/update form to not managed each field each time
+     * @todo make the create/update works
+     * @todo make the footer fixed on reducing the window
+     */
+
     constructor(props) {
         super(props);
         this.getUsers = this.getUsers.bind(this);
