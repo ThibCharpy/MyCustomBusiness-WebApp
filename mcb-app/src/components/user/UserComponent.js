@@ -9,10 +9,6 @@ import Link from 'react-router-dom/Link';
  */
 class UserComponent extends React.Component {
 
-    /**
-     * @todo make the footer fixed on reducing the window
-     */
-
     constructor(props) {
         super(props);
         this.getUsers = this.getUsers.bind(this);
