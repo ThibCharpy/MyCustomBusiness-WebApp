@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {withRouter} from 'react-router-dom'
+import {withRouter, Redirect} from 'react-router-dom'
 
 /**
  * Form component to create or edit a user
@@ -21,17 +21,31 @@ class UserForm extends React.Component {
         this.validateConfirmedPassword = this.validateConfirmedPassword.bind(this);
 
         this.state = {
-            username: '',
-            email: '',
+            user: {
+                id: null,
+                username: '',
+                email: ''
+            },
             password: '',
             confirmedPassword: '',
             usernameError: '',
             emailError: '',
             passwordError: '',
-            confirmedPasswordError: ''
+            confirmedPasswordError: '',
+            submitError: '',
+            redirect: false
         }
 
         this.baseState = this.state;
+    }
+
+    componentDidMount() {
+        const isEditMode = (this.props.match.params.id !== null);
+        if (isEditMode) {
+            const {editUser} = this.props.location.innerRef;
+            this.setState(() => ({user: editUser}));
+        }
+        console.log(this.state.user);
     }
 
     /**
@@ -39,9 +53,9 @@ class UserForm extends React.Component {
      * @param {Event} e on change event
      */
     handleUsernameChange(e) {
-        this.setState({
-            username: e.target.value
-        }, () => this.validateUsername());
+        var tmpUser = {...this.state.user}
+        tmpUser.username = e.target.value;
+        this.setState({user: tmpUser}, () => this.validateUsername());
     }
 
     /**
@@ -49,9 +63,9 @@ class UserForm extends React.Component {
      * @param {Event} e on change event
      */
     handleEmailChange(e) {
-        this.setState({
-            email: e.target.value
-        }, () => this.validateEmail());
+        var tmpUser = {...this.state.user}
+        tmpUser.email = e.target.value;
+        this.setState({user: tmpUser}, () => this.validateEmail());
     }
 
     /**
@@ -59,9 +73,7 @@ class UserForm extends React.Component {
      * @param {Event} e on change event
      */
     handlePasswordChange(e) {
-        this.setState({
-            password: e.target.value
-        },  () => this.validatePassword());
+        this.setState({password: e.target.value},  () => this.validatePassword());
     }
 
     /**
@@ -69,9 +81,7 @@ class UserForm extends React.Component {
      * @param {Event} e on change event
      */
     handleConfirmPasswordChange(e) {
-        this.setState({
-            confirmedPassword: e.target.value
-        }, () => this.validateConfirmedPassword());
+        this.setState({confirmedPassword: e.target.value}, () => this.validateConfirmedPassword());
     }
 
     /**
@@ -79,25 +89,27 @@ class UserForm extends React.Component {
      */
     handleSubmit(e) {
         e.preventDefault();
-        var result;
         if (this.props.match.params.id == null) {
             const {createFunc} = this.props.location.innerRef;
-            result = createFunc(
-                this.state.username,
-                this.state.email,
+            createFunc(
+                this.state.user.username,
+                this.state.user.email,
                 this.state.password
-            );
+            ).then(() => this.setState(() => ({redirect: true})))
+            .catch(error => this.setState(() => ({
+                submitError: 'Cannot create user, ' + error
+            })));
         } else {
             const {editFunc} = this.props.location.innerRef;
-            result = editFunc(
-                this.state.id,
-                this.state.username,
-                this.state.email,
+            editFunc(
+                this.state.user.id,
+                this.state.user.username,
+                this.state.user.email,
                 this.state.password
-            );
-        }
-        if (result !== null) {
-            this.clearForm();
+            ).then(() => this.setState(() => ({redirect: true})))
+            .catch(error => this.setState(() => ({
+                submitError: 'Cannot update user with id:' + this.state.user.id + ', ' + error
+            })));
         }
     }
 
@@ -112,7 +124,7 @@ class UserForm extends React.Component {
      * Check if the username is valid
      */
     validateUsername() {
-        const {username} = this.state;
+        const {username} = this.state.user;
         this.setState({
             usernameError:
                 (username.length > 3 && username.length < 16)? null:
@@ -125,7 +137,7 @@ class UserForm extends React.Component {
      */
     validateEmail() {
         let emailRegexp = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-        const {email} = this.state;
+        const {email} = this.state.user;
         this.setState({
             emailError:
                 emailRegexp.test(email)?null:
@@ -162,20 +174,27 @@ class UserForm extends React.Component {
      * Render html and other components
      */
     render() {
+        if (this.state.redirect) {
+            return <Redirect to="/users"/>
+        }
+
         const isCreateForm = this.props.match.params.id == null;
         let buttonSubmitText = (isCreateForm)? "Create": "Edit";
         return (
             <form onSubmit={this.handleSubmit}>
                 <h2>My Custom Business - {buttonSubmitText} User</h2>
                 <hr />
+                <div className={`${this.state.submitError? 'alert alert-danger': ''}`} role="alert">
+                    {this.state.submitError}
+                </div>
                 <div className="form-group">
                     <label>Username:</label>
-                    <input className={`form-control ${this.state.usernameError? 'is-invalid': ''}`} type="text" placeholder="Username" value={this.state.username} onChange={this.handleUsernameChange} onBlur={this.validateUsername}/>
+                    <input className={`form-control ${this.state.usernameError? 'is-invalid': ''}`} type="text" placeholder="Username" value={this.state.user.username} onChange={this.handleUsernameChange} onBlur={this.validateUsername}/>
                     <div className="invalid-feedback">{this.state.usernameError}</div>
                 </div>
                 <div className="form-group">
                     <label>Email:</label>
-                    <input className={`form-control ${this.state.emailError? 'is-invalid': ''}`} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleEmailChange} onBlur={this.validateEmail}/>
+                    <input className={`form-control ${this.state.emailError? 'is-invalid': ''}`} type="text" placeholder="E-mail" value={this.state.user.email} onChange={this.handleEmailChange} onBlur={this.validateEmail}/>
                     <div className="invalid-feedback">{this.state.emailError}</div>
                 </div>
                 <div className="form-group">

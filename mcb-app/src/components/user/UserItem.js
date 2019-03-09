@@ -24,10 +24,10 @@ class UserItem extends React.Component {
      */
     render() {
         let editFunc = this.props.onEdit;
-        let findUser = this.props.onSearch;
+        let editUser = this.props.user;
         let toEditUser = {
             pathname: '/users/'+this.props.user.id,
-            innerRef: {editFunc, findUser}
+            innerRef: {editFunc, editUser}
         };
         return (
             <tr className="d-flex">

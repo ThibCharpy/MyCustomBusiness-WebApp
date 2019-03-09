@@ -7,8 +7,8 @@ const requestHeaders = {
 
 // functions http get requesting to retrieve all users from the database
 async function findAllUsers() {
-  const url = `${BASE_URL}/users`;
-  const response = await axios.get(url, { headers: requestHeaders });
+    const url = `${BASE_URL}/users`;
+    const response = await axios.get(url, { headers: requestHeaders });
     return response.data;
 }
 
@@ -39,8 +39,8 @@ async function updateUser(userId, username, email, password) {
 }
 
 async function deleteUser(userId) {
-  const url = `${BASE_URL}/users/${userId}`;
-  const response = await axios.delete(url, { headers: requestHeaders });
+    const url = `${BASE_URL}/users/${userId}`;
+    const response = await axios.delete(url, { headers: requestHeaders });
     return response.status;
 }
 

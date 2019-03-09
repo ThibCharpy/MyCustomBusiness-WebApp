@@ -10,10 +10,6 @@ import Link from 'react-router-dom/Link';
 class UserComponent extends React.Component {
 
     /**
-     * @todo manage errors when creating/editing a user profil
-     * @todo on edit user make the form have the user informations before editing
-     * @todo pass a user object to create/update form to not managed each field each time
-     * @todo make the create/update works
      * @todo make the footer fixed on reducing the window
      */
 
@@ -50,14 +46,9 @@ class UserComponent extends React.Component {
      */
     async handleUserCreate(username, email, password) {
         try {
-            const user = await addUser(username, email, password);
-            this.setState({ users: [user].concat(this.state.users) });
-            this.setState({ usersError: '' });
-            return user;
-        }
-        catch (reason) {
-            console.log('Error: user creation failed !');
-            return null;
+            await addUser(username, email, password);
+        } catch (reason) {
+            throw Error(reason);
         }
     }
 
@@ -70,17 +61,9 @@ class UserComponent extends React.Component {
      */
     async handleUserUpdate(userId, username, email, password) {
         try {
-            const user = await updateUser(userId, username, email, password);
-            let updatedUser = this.state.users.filter(userItem => user.id === userItem.id);
-            updatedUser.username = user.username;
-            updatedUser.email = user.email;
-            updatedUser.password = user.password;
-            this.setState({ usersError: '' });
-            return user;
-        }
-        catch (reason) {
-            console.log('Error: user update with id:' + userId + ' failed !');
-            return null;
+            await updateUser(userId, username, email, password);
+        }catch (reason) {
+            throw Error(reason);
         }
     }
 
@@ -119,6 +102,7 @@ class UserComponent extends React.Component {
                         id: user.id,
                         username: user.username,
                         email: user.email
+                        //password: user.password
                     };
                     this.setState({users: [userElement].concat(this.state.users)});
                 });
