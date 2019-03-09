@@ -12,17 +12,17 @@ class Footer extends React.Component {
      */
     render() {
         return (
-            <footer className="fixed-bottom">
-                <hr />
-                <div className="row justify-content-around">
-                    <small>My Custom Business</small>
-                    <Link className="btn-light" to="/">
-                        <i className="fas fa-suitcase fa-2x"></i>
-                    </Link>
-                    <small>ReactJS Web Application</small>
+            <footer className="footer">
+                <div className="container">
+                    <div className="row justify-content-around">
+                        <small>My Custom Business</small>
+                        <Link className="btn-light" to="/">
+                            <i className="fas fa-suitcase fa-2x"></i>
+                        </Link>
+                        <small>ReactJS Web Application</small>
+                    </div>
                 </div>
             </footer>
-            
         );
     }
 }

@@ -31,8 +31,8 @@ class App extends React.Component {
                                 <Route path="/users/:id" component={UserForm} />
                             </Switch>
                         </div>
-                        <Footer />
                     </div>
+                    <Footer />
                 </div>
             </Router>
         );

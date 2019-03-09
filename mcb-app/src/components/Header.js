@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {NavLink} from 'react-router-dom'
+import {NavLink, Link} from 'react-router-dom'
 
 /**
  * App Header
@@ -12,7 +12,7 @@ class Header extends React.Component {
      */
     render() {
         return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-success">
+            <nav className="navbar navbar-expand-lg navbar-dark navbar-fixed-top bg-success">
                 <NavLink className="navbar-brand" to="/">
                     <i className="fas fa-suitcase fa-lg"></i>&nbsp;{this.props.title}
                 </NavLink>
@@ -31,10 +31,10 @@ class Header extends React.Component {
                             <i className="fas fa-user"></i>
                         </button>
                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <NavLink className="dropdown-item" to="/">Profile</NavLink>
-                            <NavLink className="dropdown-item" to="/">History</NavLink>
+                            <Link className="dropdown-item" to="/">Profile</Link>
+                            <Link className="dropdown-item" to="/">History</Link>
                             <div className="dropdown-divider"></div>
-                            <NavLink className="dropdown-item" to="/">Logout</NavLink>
+                            <Link className="dropdown-item" to="/">Logout</Link>
                         </div>
                     </div>
                 </form>
