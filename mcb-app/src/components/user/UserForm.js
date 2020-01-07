@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-import {withRouter, Redirect} from 'react-router-dom'
+import {withRouter, Redirect} from 'react-router-dom';
 
 /**
  * Form component to create or edit a user
@@ -40,8 +40,9 @@ class UserForm extends React.Component {
     }
 
     componentDidMount() {
-        const isEditMode = (this.props.match.params.id !== null);
+        const isEditMode = this.props.match.params.id !== undefined;
         if (isEditMode) {
+            console.log('Edit mode !!');
             const {editUser} = this.props.location.innerRef;
             this.setState(() => ({user: editUser}));
         }
